@@ -7,44 +7,47 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// 1. @RestControllerを使うことで、戻り値が自動的にJSONになります
 @RestController
 public class userController {
 
-	// 2. Studioからのアクセスを許可するためにCORS設定を追加
-	@CrossOrigin(origins = "*")
-	@GetMapping("/user")
-	public List<User> test() {
-		// 3. テスト用のデータをリストに詰める
-		return Arrays.asList(
-				new User(1, "田中 太郎", "https://x.com/tanaka"),
-				new User(2, "佐藤 次郎", "https://x.com/sato"),
-				new User(3, "鈴木 花子", "https://x.com/suzuki"));
-	}
+    @CrossOrigin(origins = "*")
+    @GetMapping("/user")
+    public UserResponse test() {
+        List<User> userList = Arrays.asList(
+                new User(1, "田中 太郎", "https://x.com/tanaka"),
+                new User(2, "佐藤 次郎", "https://x.com/sato"),
+                new User(3, "鈴木 花子", "https://x.com/suzuki"));
+        
+        // 直出しせず、UserResponseで包んで返す
+        return new UserResponse(userList);
+    }
 
-	// 内部クラスとしてUserモデルを定義（本来は別ファイルにするのが望ましい）
-	public static class User {
-		private int id;
-		private String name;
-		private String xUrl;
+    // --- Studioが読み取りやすいように「data」というキーで包むためのクラス ---
+    public static class UserResponse {
+        private List<User> data; // ここを "data" という名前にするのがコツです
 
-		public User(int id, String name, String xUrl) {
-			this.id = id;
-			this.name = name;
-			this.xUrl = xUrl;
-		}
+        public UserResponse(List<User> data) {
+            this.data = data;
+        }
 
-		// Getter（これがないとJSONに出力されません）
-		public int getId() {
-			return id;
-		}
+        public List<User> getData() {
+            return data;
+        }
+    }
 
-		public String getName() {
-			return name;
-		}
+    public static class User {
+        private int id;
+        private String name;
+        private String xUrl;
 
-		public String getXUrl() {
-			return xUrl;
-		}
-	}
+        public User(int id, String name, String xUrl) {
+            this.id = id;
+            this.name = name;
+            this.xUrl = xUrl;
+        }
+
+        public int getId() { return id; }
+        public String getName() { return name; }
+        public String getXUrl() { return xUrl; }
+    }
 }
