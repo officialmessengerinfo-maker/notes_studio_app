@@ -18,9 +18,6 @@ public class UserController {
 	@Autowired
 	public PlayingWithNeonRepository playwithneonrepository;
 
-	@Autowired
-	public PlayingWithNeonEntity playingwithneonentity;
-
 	@CrossOrigin(origins = "*")
 	@GetMapping("/user")
 	public UserResponse test() {
