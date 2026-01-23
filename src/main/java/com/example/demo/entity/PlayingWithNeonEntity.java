@@ -12,7 +12,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name="playing_with_neon")
-public class playingWithNeonEntity{
+public class PlayingWithNeonEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -21,7 +21,7 @@ public class playingWithNeonEntity{
 	
 	private float value;
 	
-	private List<playingWithNeonEntity> data;
+	private List<PlayingWithNeonEntity> data;
 	
 }
 

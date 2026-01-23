@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.neonDto;
-import com.example.demo.entity.playingWithNeonEntity;
-import com.example.demo.repository.playingWithNeonRepository;
+import com.example.demo.dto.NeonDto;
+import com.example.demo.entity.PlayingWithNeonEntity;
+import com.example.demo.repository.PlayingWithNeonRepository;
 
 @RestController
-public class userController {
+public class UserController {
 
 	@Autowired
-	public playingWithNeonRepository playwithneonrepository;
+	public PlayingWithNeonRepository playwithneonrepository;
 
 	@Autowired
-	public playingWithNeonEntity playingwithneonentity;
+	public PlayingWithNeonEntity playingwithneonentity;
 
 	@CrossOrigin(origins = "*")
 	@GetMapping("/user")
@@ -35,12 +35,12 @@ public class userController {
 
 	@CrossOrigin(origins = "*")
     @GetMapping("/playingwithneon")
-    public neonDto playwithneon() {
+    public NeonDto playwithneon() {
         // DBから全件取得
-        List<playingWithNeonEntity> allData = playwithneonrepository.findAll();
+        List<PlayingWithNeonEntity> allData = playwithneonrepository.findAll();
         
         // Response用の箱に入れて返す
-        return new neonDto(allData);
+        return new NeonDto(allData);
     }
 
 	// --- Studioが読み取りやすいように「data」というキーで包むためのクラス ---

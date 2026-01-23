@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entity.playingWithNeonEntity;
+import com.example.demo.entity.PlayingWithNeonEntity;
 
 @Repository
-public interface playingWithNeonRepository extends JpaRepository<playingWithNeonEntity , Integer>{
-	List<playingWithNeonEntity> findAll();
+public interface PlayingWithNeonRepository extends JpaRepository<PlayingWithNeonEntity, Integer> {
+	List<PlayingWithNeonEntity> findAll();
 }
