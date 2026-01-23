@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,8 +18,6 @@ public class PlayingWithNeonEntity{
 	private String name;
 	
 	private float value;
-	
-	private List<PlayingWithNeonEntity> data;
 	
 }
 
