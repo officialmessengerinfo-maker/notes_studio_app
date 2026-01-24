@@ -30,7 +30,7 @@ public class SongBankDto {
         private List<CollaboratorEntity> collaborators;
         private List<String> vocaloids;        
         
-    	private static final String NICONICO_URL = "https://ext.nicovideo.jp/thumb";
+    	private static final String NICONICO_URL = "https://ext.nicovideo.jp/thumb/";
     	private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
 
         public SongItem(SongBankEntity entity, List<CollaboratorEntity> colabs , List<String> vocalos) {
