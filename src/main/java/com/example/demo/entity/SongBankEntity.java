@@ -31,5 +31,7 @@ public class SongBankEntity{
 	
 	private Integer event_id;
 	
+	private String event_name;
+	
 }
 

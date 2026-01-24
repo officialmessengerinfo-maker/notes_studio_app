@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.demo.entity.CollaboratorEntity;
@@ -18,22 +19,30 @@ public class SongBankDto {
     @Data
     public static class SongItem {
         private Integer id;
-        private String title;
         private String artist;
+        private String cover_artist;
+        private String title;
         private String url;
+        private String genre;
+        private Date post_time;
+        private Integer event_id;
+    	private String event_name;
         private List<CollaboratorEntity> collaborators;
         private List<String> vocaloids;        
         
     	private static final String NICONICO_URL = "https://ext.nicovideo.jp/thumb";
     	private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
 
-        // EntityからDtoへ詰め替えるコンストラクタ
         public SongItem(SongBankEntity entity, List<CollaboratorEntity> colabs , List<String> vocalos) {
             this.id = entity.getId();
-            this.title = entity.getTitle();
             this.artist = entity.getArtist();
-            // ここでURL加工！
+            this.cover_artist = entity.getCover_artist();
+            this.title = entity.getTitle();
             this.url = urlJoin(entity.getUrl());
+            this.genre = entity.getGenre();
+            this.post_time = entity.getPost_time();
+            this.event_id = entity.getEvent_id();
+            this.event_name = entity.getEvent_name();
             this.collaborators = colabs;
             this.vocaloids = vocalos;
         }

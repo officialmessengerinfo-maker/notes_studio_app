@@ -11,9 +11,16 @@ import com.example.demo.entity.VocaloidEntity;
 
 @Repository
 public interface VocaloidRepository extends JpaRepository<VocaloidEntity, Integer> {
-    
-    @Query(value = "SELECT v.vocaloid FROM songbank_vocaloid sv " + 
-                   "INNER JOIN vocaloid v ON v.id = sv.vocaloid_id " +
-                   "WHERE sv.song_id = :id", nativeQuery = true)
-    List<String> getVocaloids(@Param("id") Integer id);
+
+	//idに一致したボーカロイドを取得(複数の場合有)
+	@Query(value = "SELECT v.vocaloid FROM songbank_vocaloid sv " +
+			"INNER JOIN vocaloid v ON v.id = sv.vocaloid_id " +
+			"WHERE sv.song_id = :id", nativeQuery = true)
+	List<String> getVocaloids(@Param("id") Integer id);
+
+	//検索用のボーカロイドを取得
+	@Query(value = "SELECT v.vocaloid FROM songbank_vocaloid sv " +
+			"INNER JOIN vocaloid v ON v.id = sv.vocaloid_id " +
+			"GROUP BY v.vocaloid ORDER BY v.vocaloid", nativeQuery = true)
+	List<String> getVocaloidGroup();
 }

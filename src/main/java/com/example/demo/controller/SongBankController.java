@@ -53,6 +53,10 @@ public class SongBankController{
 	        itemList.add(item);
 	    }
 	    
+	    
+//	    	検索用キーワードを取得
+//	    	List<String>vocaloidSearchList = vocaloidrepository.getVocaloidsGroup();
+	    
 	    return new SongBankDto(itemList);
 	}
 

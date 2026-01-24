@@ -11,6 +11,8 @@ import com.example.demo.entity.CollaboratorEntity;
 
 @Repository
 public interface CollaboratorRepository extends JpaRepository<CollaboratorEntity, Integer> {
+	
+	//idに一致したコラボレータを取得(複数の場合有)
 	@Query(value = "SELECT * FROM SONGBANK_COLLABORATOR WHERE SONG_ID = :id ORDER BY SONG_ID", nativeQuery = true)
 	List<CollaboratorEntity> getCollaborator(@Param("id") Integer id);
 }
