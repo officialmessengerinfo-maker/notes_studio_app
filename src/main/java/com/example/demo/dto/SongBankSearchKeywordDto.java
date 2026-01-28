@@ -1,6 +1,9 @@
 package com.example.demo.dto;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Data;
 
@@ -15,22 +18,33 @@ public class SongBankSearchKeywordDto {
     @Data
     public static class SearchItem {
 		//ボーカロイド検索用キーワードを取得
-		private List<String>vocaloidSearchList;
+		private List<Map<String,String>>vocaloidSearchList;
 
 		//ジャンル用キーワードを取得
-		private List<String>genreSearchList;
+		private List<Map<String,String>>genreSearchList;
 		
 		//イベント用キーワードを取得
-		private List<String>eventSearchList;
+		private List<Map<String,String>>eventSearchList;
 
         public SearchItem(List<String> vsList, List<String> gsList , List<String> esList) {
-        	this.vocaloidSearchList = vsList;
-        	this.genreSearchList = gsList;
-        	this.eventSearchList = esList;
-        }
+        	this.vocaloidSearchList = changeMap(vsList);
+        	this.genreSearchList = changeMap(gsList);
+        	this.eventSearchList = changeMap(esList);
+        }     
         
-
+        public List<Map<String,String>>  changeMap(List<String> list) {
+        	List<Map<String,String>> result = new ArrayList<>(); 
+        	for(String li : list) {
+        		Map<String , String> keywordMap = new HashMap<>();
+        		keywordMap.put("name", li);
+        		result.add(keywordMap);
+        	}
+        	return result;
+        }
     }
     
+
+    
+
 
 }
