@@ -6,10 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.SongBankDto;
 import com.example.demo.dto.SongBankSearchKeywordDto;
+import com.example.demo.dto.VcDto;
 import com.example.demo.entity.CollaboratorEntity;
 import com.example.demo.entity.SongBankEntity;
 import com.example.demo.repository.CollaboratorRepository;
@@ -49,21 +51,12 @@ public class SongBankController {
 		List<SongBankEntity> songBankData = songbankrepository.getSongBankData();
 
 		List<SongBankDto.SongItem> itemList = new ArrayList<>();
-
-		for (SongBankEntity sb : songBankData) {
-			Integer song_id = sb.getId();
-
-			// コラボレータ取得
-			List<CollaboratorEntity> collaboratorList = collaboratorrepository.getCollaborator(song_id);
-
-			// ボーカロイド取得
-			List<String> vocaloidList = vocaloidrepository.getVocaloids(song_id);
-
-			SongBankDto.SongItem item = new SongBankDto.SongItem(sb, collaboratorList, vocaloidList);
+		
+		for(SongBankEntity sb : songBankData) {
+			SongBankDto.SongItem item = new SongBankDto.SongItem(sb);
 			itemList.add(item);
 		}
-
-
+		
 		return new SongBankDto(itemList);
 	}
 
@@ -87,6 +80,24 @@ public class SongBankController {
 		
 		return new SongBankSearchKeywordDto(SearchList);
 	}
+	
+	@CrossOrigin(origins="*")
+	@GetMapping("/getVCList/{songId}")
+	public VcDto getVCList(@PathVariable Integer songId) {
+		List<VcDto.SearchItem> VcList = new ArrayList<>();
+		
+		// コラボレータ取得
+		List<CollaboratorEntity> collaboratorList = collaboratorrepository.getCollaborator(songId);
+
+		// ボーカロイド取得
+		List<String> vocaloidList = vocaloidrepository.getVocaloids(songId);
+		
+		VcDto.SearchItem item = new VcDto.SearchItem(collaboratorList, vocaloidList);
+		VcList.add(item);
+		
+		return new VcDto(VcList);
+	}
+	
 
 
 }
