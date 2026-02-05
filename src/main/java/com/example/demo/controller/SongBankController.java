@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.SongBankDto;
@@ -98,6 +99,20 @@ public class SongBankController {
 		return new VcDto(VcList);
 	}
 	
+	@CrossOrigin(origins="*")
+	@GetMapping("/songbankSearchResult")
+	public SongBankDto songbankSearchResult(@RequestParam String keyword) {
+		List<SongBankEntity> songBankData = songbankrepository.getSongBankSearchData(keyword);
+		
+		List<SongBankDto.SongItem> itemList = new ArrayList<>();
+		
+		for(SongBankEntity sb : songBankData) {
+			SongBankDto.SongItem item = new SongBankDto.SongItem(sb);
+			itemList.add(item);
+		}
+		
+		return new SongBankDto(itemList);
+	}
 
 
 }
