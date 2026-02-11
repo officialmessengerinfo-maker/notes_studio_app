@@ -101,8 +101,8 @@ public class SongBankController {
 	
 	@CrossOrigin(origins="*")
 	@GetMapping("/songbankSearchResult")
-	public SongBankDto songbankSearchResult(@RequestParam String keyword) {
-		List<SongBankEntity> songBankData = songbankrepository.getSongBankSearchData(keyword);
+	public SongBankDto songbankSearchResult(@RequestParam String q) {
+		List<SongBankEntity> songBankData = songbankrepository.getSongBankSearchData(q);
 		
 		List<SongBankDto.SongItem> itemList = new ArrayList<>();
 		
