@@ -24,7 +24,7 @@ public class SongBankDto {
         private String title;
         private String url;
         private String genre;
-        @JsonFormat(pattern = "yyyy-mm-dd", timezone = "Asia/Tokyo")
+        @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Tokyo")
         private Date post_time;
         private Integer event_id;
     	private String event_name;
