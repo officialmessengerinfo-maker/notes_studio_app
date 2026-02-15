@@ -11,10 +11,10 @@ import com.example.demo.entity.SongBankEntity;
 
 @Repository
 public interface SongBankRepository extends JpaRepository<SongBankEntity, Integer> {
-	@Query(value = "SELECT s.id , s.artist , s.cover_artist,s.title,s.url,s.genre,s.post_time,s.event_id, event.event_name "
-			+ "FROM songbank s inner join event on s.event_id = event.id ORDER BY s.artist", nativeQuery = true)
+	@Query(value = "SELECT s.id , s.artist , s.cover_artist , s.title , s.url , s.genre , s.post_time, s.event_id "
+			+ "FROM songbank s ORDER BY s.artist", nativeQuery = true)
 	List<SongBankEntity> getSongBankData();
-	
+
 	@Query(value = "SELECT s.id , s.artist , s.cover_artist,s.title,s.url,s.genre,s.post_time,s.event_id, event.event_name "
 			+ "FROM songbank s inner join event on s.event_id = event.id "
 			+ "where s.artist LIKE CONCAT('%', :keyword , '%') or "

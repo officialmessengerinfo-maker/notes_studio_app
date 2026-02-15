@@ -3,6 +3,7 @@ package com.example.demo.dto;
 import java.util.Date;
 import java.util.List;
 
+import com.example.demo.entity.CollaboratorEntity;
 import com.example.demo.entity.SongBankEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -26,13 +27,15 @@ public class SongBankDto {
         private String genre;
         @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Tokyo")
         private Date post_time;
-        private Integer event_id;
-    	private String event_name;
+        private String event_id;
+        private List<String>vocaloid;
+        private List<String>event;
+        private List<CollaboratorEntity> collaborator;
         
     	private static final String NICONICO_URL = "https://ext.nicovideo.jp/thumb/";
     	private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
 
-        public SongItem(SongBankEntity entity) {
+        public SongItem(SongBankEntity entity,List<String> vcList, List<String> esList,List<CollaboratorEntity> cbList) {
             this.id = entity.getId();
             this.artist = entity.getArtist();
             this.cover_artist = entity.getCover_artist();
@@ -41,7 +44,9 @@ public class SongBankDto {
             this.genre = entity.getGenre();
             this.post_time = entity.getPost_time();
             this.event_id = entity.getEvent_id();
-            this.event_name = entity.getEvent_name();
+            this.vocaloid = vcList;
+            this.event = esList;
+            this.collaborator = cbList;
         }
         
     	public String urlJoin(String url) {

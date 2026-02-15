@@ -29,9 +29,7 @@ public class SongBankEntity{
 	
 	private Date post_time;
 	
-	private Integer event_id;
-	
-	private String event_name;
+	private String event_id;
 	
 }
 

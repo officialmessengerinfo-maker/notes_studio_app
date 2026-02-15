@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.SongBankDto;
@@ -38,81 +37,91 @@ public class SongBankController {
 
 	@Autowired
 	public VocaloidRepository vocaloidrepository;
-	
+
 	@Autowired
 	public EventRepository eventrepository;
-	
+
 	@Autowired
 	public GenreRepository genrerepository;
 
 	@CrossOrigin(origins = "*")
 	@GetMapping("/songbank")
 	public SongBankDto songbank() {
+	    // 1. メインの曲データを取得
+	    List<SongBankEntity> songBankData = songbankrepository.getSongBankData();
+	    List<SongBankDto.SongItem> itemList = new ArrayList<>();
 
-		List<SongBankEntity> songBankData = songbankrepository.getSongBankData();
+	    for (SongBankEntity sb : songBankData) {
+	        List<String> eventSearchList = new ArrayList<>();
+	        
+	        //ボーカロイドリストを取得
+	        List<String> vocaloidList = vocaloidrepository.getVocaloids(sb.getId());
+	        
+	        //コラボレータリストを取得
+	        List<CollaboratorEntity> collaboratorList = collaboratorrepository.getCollaborator(sb.getId());
+	        
+	        // 3. イベントリストを取得
+	        String rawEventId = sb.getEvent_id();
+	        if (rawEventId != null && !rawEventId.isEmpty()) {
 
-		List<SongBankDto.SongItem> itemList = new ArrayList<>();
-		
-		for(SongBankEntity sb : songBankData) {
-			SongBankDto.SongItem item = new SongBankDto.SongItem(sb);
-			itemList.add(item);
-		}
-		
-		return new SongBankDto(itemList);
+	            String[] eventIdList = rawEventId.split(",");
+	            for (String id : eventIdList) {
+	                // 空文字（",,"のようなデータ）対策
+	                if (!id.trim().isEmpty()) {
+	                	Integer intId = Integer.parseInt(id);
+	                    String eventName = eventrepository.getEvents(intId);
+	                    if (eventName != null) {
+	                        eventSearchList.add(eventName);
+	                    }
+	                }
+	            }
+	        }
+
+	        SongBankDto.SongItem item = new SongBankDto.SongItem(sb, vocaloidList, eventSearchList,collaboratorList);
+	        itemList.add(item); 
+	    }
+	    
+	    return new SongBankDto(itemList);
 	}
+
 
 	@CrossOrigin(origins = "*")
 	@GetMapping("/songbankSearchKeyword")
 	public SongBankSearchKeywordDto songbankSearchKeyword() {
-		
+
 		List<SongBankSearchKeywordDto.SearchItem> SearchList = new ArrayList<>();
-		
+
 		//ボーカロイド検索用キーワードを取得
-		List<String>vocaloidSearchList = vocaloidrepository.getVocaloidGroup();
+		List<String> vocaloidSearchList = vocaloidrepository.getVocaloidGroup();
 
 		//ジャンル用キーワードを取得
-		List<String>genreSearchList = genrerepository.getGenreGroup();
-		
+		List<String> genreSearchList = genrerepository.getGenreGroup();
+
 		//イベント用キーワードを取得
-		List<String>eventSearchList = eventrepository.getEventGroup();
-		
-		SongBankSearchKeywordDto.SearchItem item = new SongBankSearchKeywordDto.SearchItem(vocaloidSearchList ,genreSearchList, eventSearchList);
+		List<String> eventSearchList = eventrepository.getEventGroup();
+
+		SongBankSearchKeywordDto.SearchItem item = new SongBankSearchKeywordDto.SearchItem(vocaloidSearchList,
+				genreSearchList, eventSearchList);
 		SearchList.add(item);
-		
+
 		return new SongBankSearchKeywordDto(SearchList);
 	}
-	
-	@CrossOrigin(origins="*")
+
+	@CrossOrigin(origins = "*")
 	@GetMapping("/getVCList/{songId}")
 	public VcDto getVCList(@PathVariable Integer songId) {
 		List<VcDto.SearchItem> VcList = new ArrayList<>();
-		
+
 		// コラボレータ取得
 		List<CollaboratorEntity> collaboratorList = collaboratorrepository.getCollaborator(songId);
 
 		// ボーカロイド取得
 		List<String> vocaloidList = vocaloidrepository.getVocaloids(songId);
-		
+
 		VcDto.SearchItem item = new VcDto.SearchItem(collaboratorList, vocaloidList);
 		VcList.add(item);
-		
+
 		return new VcDto(VcList);
 	}
-	
-	@CrossOrigin(origins="*")
-	@GetMapping("/songbankSearchResult")
-	public SongBankDto songbankSearchResult(@RequestParam String q) {
-		List<SongBankEntity> songBankData = songbankrepository.getSongBankSearchData(q);
-		
-		List<SongBankDto.SongItem> itemList = new ArrayList<>();
-		
-		for(SongBankEntity sb : songBankData) {
-			SongBankDto.SongItem item = new SongBankDto.SongItem(sb);
-			itemList.add(item);
-		}
-		
-		return new SongBankDto(itemList);
-	}
-
 
 }

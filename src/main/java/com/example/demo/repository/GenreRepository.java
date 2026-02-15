@@ -15,5 +15,6 @@ public interface GenreRepository extends JpaRepository<VocaloidEntity, Integer> 
 	@Query(value = "SELECT DISTINCT genre FROM songbank " +
 			"ORDER BY genre", nativeQuery = true)
 	List<String> getGenreGroup();
+	
 }
  
