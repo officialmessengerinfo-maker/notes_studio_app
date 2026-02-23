@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 
 @Repository
 public interface SongBankRepository extends JpaRepository<SongBankEntity, Integer> {
-	@Query(value = "SELECT s.id , s.artist , s.cover_artist , s.title , s.url , s.genre , s.post_time, s.event_id ,s.thumbnail_url"
+	@Query(value = "SELECT s.id , s.artist , s.cover_artist , s.title , s.url , s.genre , s.post_time, s.event_id , s.thumbnail_url "
 			+ "FROM songbank s ORDER BY s.artist", nativeQuery = true)
 	List<SongBankEntity> getSongBankData();
 
