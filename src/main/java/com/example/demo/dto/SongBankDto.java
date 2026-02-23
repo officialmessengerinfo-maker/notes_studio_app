@@ -66,7 +66,7 @@ public class SongBankDto {
     		if(songurl.startsWith("sm")) {
     			return thumbnail;
     		}else {
-    			return urlJoin(songurl);
+    			return "https://img.youtube.com/vi/" + songurl + "/maxresdefault.jpg";
     		}
     	}
     }
