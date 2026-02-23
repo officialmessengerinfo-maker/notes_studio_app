@@ -63,6 +63,7 @@ public class SongBankDto {
 		}
 
 		public String selectThumbnailUrl(String songurl, String thumbnail) {
+			System.out.println(songurl);
     		if(songurl.startsWith("sm")) {
     			return thumbnail;
     		}else {
