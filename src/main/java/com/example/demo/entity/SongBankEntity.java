@@ -31,5 +31,7 @@ public class SongBankEntity{
 	
 	private String event_id;
 	
+	private String thumbnail_url;
+	
 }
 

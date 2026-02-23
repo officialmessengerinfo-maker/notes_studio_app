@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -122,6 +124,29 @@ public class SongBankController {
 		VcList.add(item);
 
 		return new VcDto(VcList);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@GetMapping("/updateThumbnail")
+	public void insertThumbnail() {
+	    // データ取得
+	    List<SongBankEntity> songBankData = songbankrepository.getSongBankData();
+	    
+	    for(SongBankEntity sb : songBankData) {
+	        String url = sb.getUrl();
+	        Integer videoId = sb.getId();
+	        
+	        try {
+	        	
+	        	Document doc = Jsoup.connect("https://www.nicovideo.jp/watch/" + url).get();
+	        	String thumbnailUrl = doc.select("meta[property=og:image]").attr("content");
+	        	
+	        	songbankrepository.updateThumbnail(videoId,thumbnailUrl);
+	            
+	        } catch (Exception e) {
+	            System.err.println("API取得エラー（動画ID: " + url + "）: " + e.getMessage());
+	        }
+	    }
 	}
 
 }
