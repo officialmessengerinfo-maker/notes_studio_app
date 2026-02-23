@@ -32,8 +32,8 @@ public class SongBankDto {
 		private List<String> event;
 		private List<CollaboratorEntity> collaborator;
 
-		private static final String NICONICO_URL = "https://ext.nicovideo.jp/thumb/";
-		private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
+		private static final String NICONICO_URL = "https://ext.nicovideo.jp/watch/";
+		private static final String YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
 		public SongItem(SongBankEntity entity, List<String> vcList, List<String> esList,
 				List<CollaboratorEntity> cbList) {
@@ -66,7 +66,7 @@ public class SongBankDto {
     		if(songurl.startsWith("sm")) {
     			return thumbnail;
     		}else {
-    			return songurl;
+    			return urlJoin(songurl);
     		}
     	}
     }
